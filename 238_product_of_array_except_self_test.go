@@ -1,7 +1,6 @@
 package leetcode_go
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -14,40 +13,17 @@ func Test_238(t *testing.T) {
 func solve238(nums []int) []int {
 	result := make([]int, len(nums))
 
-	left := make([]int, len(nums)-1)
-	for i := 0; i < len(nums)-1; i++ {
-		if i == 0 {
-			left[i] = nums[i]
-			continue
-		}
-
-		left[i] = left[i-1] * nums[i]
-	}
-	fmt.Println("left", left)
-
-	right := make([]int, len(nums))
-	for i := len(nums) - 1; i > 0; i-- {
-		if i == len(nums)-1 {
-			right[i] = nums[i]
-			continue
-		}
-
-		right[i] = right[i+1] * nums[i]
-	}
-	fmt.Println("right", right)
-
+	left := 1
 	for i := 0; i < len(nums); i++ {
-		if i == 0 {
-			result[i] = right[i+1]
-			continue
-		}
-		if i == len(nums)-1 {
-			result[i] = left[len(left)-1]
-			continue
-		}
-		result[i] = left[i-1] * right[i+1]
+		result[i] = left
+		left *= nums[i]
 	}
-	fmt.Println("result", result)
+
+	right := 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		result[i] *= right
+		right *= nums[i]
+	}
 
 	return result
 }
